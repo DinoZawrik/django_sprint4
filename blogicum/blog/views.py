@@ -9,7 +9,7 @@ from .forms import PostForm, CommentForm # Импортируем формы
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin # Для CBV и проверки прав
 from django.shortcuts import redirect # Для ручных редиреков
-from django.db.models import Count # В views.py
+from django.db.models import Count, Q # В views.py
 
 
 User = get_user_model() # В начале файла
@@ -22,8 +22,8 @@ def index(request):
     posts = (
         Post.objects.select_related("category", "author", "location")
         .filter(
+            Q(pub_date__lte=timezone.now()) | Q(pub_date__isnull=True), # Дата публикации не позже текущего или пустая
             is_published=True,  # Пост опубликован
-            pub_date__lte=timezone.now(),  # Дата публикации не позже текущего
             category__is_published=True,  # Категория поста опубликована
             # (исключает посты с category=None)
         )
@@ -47,9 +47,9 @@ def category_posts(request, slug):
     posts = (
         Post.objects.select_related("author", "location")
         .filter(
+            Q(pub_date__lte=timezone.now()) | Q(pub_date__isnull=True), # Дата публикации не позже текущего или пустая
             category=category,  # Посты принадлежат данной категории
             is_published=True,  # Пост опубликован
-            pub_date__lte=timezone.now(),  # Дата публикации не позже текущего
         )
         .annotate(comment_count=Count('comments')) # Добавляем количество комментариев
         .order_by("-pub_date")
@@ -238,3 +238,6 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 def edit_profile(request, username):
     # Здесь будет логика редактирования профиля
     return render(request, 'blog/edit_profile.html', {'username': username})
+
+def server_error(request, exception=None):
+    return render(request, 'pages/500.html', status=500)

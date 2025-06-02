@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Post, Comment, Category, Location # Импортируем для форм
+from .models import Post, Comment # Импортируем для форм
 
 class CreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -9,7 +9,9 @@ class CreationForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'text', 'pub_date', 'category', 'location', 'image') # Добавьте image!
+        fields = ('title', 'text', 'category', 'location', 'image') # Добавьте image!
+
+    pub_date = forms.DateTimeField(required=False)
 
 class CommentForm(forms.ModelForm):
     class Meta:

@@ -76,6 +76,8 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATES_DIR = BASE_DIR / "templates"
+
 WSGI_APPLICATION = "blogicum.wsgi.application"
 
 
