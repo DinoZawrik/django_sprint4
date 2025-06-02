@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )  # Для CBV и проверки прав
 from django.shortcuts import redirect  # Для ручных редиреков
-from django.db.models import Count, Q
+x   from django.db.models import Count, Q
 
 # from django.db.models.expressions import OrderBy # Импортируем OrderBy
 from django.core.paginator import Paginator  # Импортируем Paginator
@@ -109,7 +109,6 @@ def post_detail(request, pk):
     # 2. Пост не опубликован
     # 3. Категория поста отсутствует ИЛИ категория поста не опубликована
     # Проверяем условия для возврата ошибки 404:
-    # Если текущий пользователь - автор поста, показываем пост независимо от статуса публикации и даты.
     # Иначе - применяем фильтры.
     if request.user != post.author:
         if (
@@ -141,7 +140,6 @@ def profile_detail(request, username):
     # и дата публикации которых не позже текущего времени.
     # Получаем посты автора.
     # Если текущий пользователь - автор профиля, показываем все посты.
-    # Иначе - только опубликованные, не отложенные и из опубликованных категорий.
     if request.user == profile:
         post_list = (
             profile.posts.select_related("category", "location")

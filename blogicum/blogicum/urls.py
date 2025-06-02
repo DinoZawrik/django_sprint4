@@ -26,7 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("pages/", include("pages.urls", namespace="pages")),
     path("", include("blog.urls", namespace="blog")),
-    path("auth/", include("django.contrib.auth.urls")),  # <--- Добавьте эту строку
+    path("auth/", include("django.contrib.auth.urls")),
     path(
         "auth/registration/register/",
         CreateView.as_view(
@@ -40,7 +40,8 @@ urlpatterns = [
 
 # Для отдачи медиа-файлов в режиме разработки
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, 
+            document_root=settings.MEDIA_ROOT)
 
 handler500 = "blog.views.server_error"
 
