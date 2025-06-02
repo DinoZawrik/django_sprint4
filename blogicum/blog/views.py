@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )  # Для CBV и проверки прав
 from django.shortcuts import redirect  # Для ручных редиреков
-x   from django.db.models import Count, Q
+from django.db.models import Count, Q
 
 # from django.db.models.expressions import OrderBy # Импортируем OrderBy
 from django.core.paginator import Paginator  # Импортируем Paginator
