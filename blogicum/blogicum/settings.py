@@ -32,17 +32,15 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    
-    'django_bootstrap5',  # <-- ДОБАВЬТЕ ЭТУ СТРОКУ
-
-    'blog',  # Ваши приложения
-    'pages', # Ваши приложения
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django_bootstrap5",  # <-- ДОБАВЬТЕ ЭТУ СТРОКУ
+    "blog",  # Ваши приложения
+    "pages",  # Ваши приложения
 ]
 
 MIDDLEWARE = [
@@ -92,8 +90,8 @@ DATABASES = {
 }
 
 # Email Backend (для отладки)
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 
 # Password validation
@@ -115,14 +113,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Редиректы после логина/логаута
-LOGIN_REDIRECT_URL = '/' # Куда перенаправлять после успешного логина
-LOGOUT_REDIRECT_URL = '/' # Куда перенаправлять после успешного логаута
+LOGIN_REDIRECT_URL = "/"  # Куда перенаправлять после успешного логина
+LOGOUT_REDIRECT_URL = "/"  # Куда перенаправлять после успешного логаута
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = "ru-ru"
 
 TIME_ZONE = "UTC"
 
@@ -138,8 +136,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -147,6 +145,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom error pages
-HANDLER404 = 'pages.views.page_not_found'
-HANDLER500 = 'pages.views.server_error'
-CSRF_FAILURE_VIEW = 'pages.views.csrf_failure'
+HANDLER404 = "pages.views.page_not_found"
+HANDLER500 = "pages.views.server_error"
+CSRF_FAILURE_VIEW = "pages.views.csrf_failure"

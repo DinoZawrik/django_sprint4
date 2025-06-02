@@ -35,9 +35,7 @@ class Category(models.Model):
 
 
 class Location(models.Model):
-    name = models.CharField(
-        "Название места", max_length=256, help_text="256 символов."
-    )
+    name = models.CharField("Название места", max_length=256, help_text="256 символов.")
     is_published = models.BooleanField(
         "Опубликовано",
         default=True,
@@ -58,9 +56,9 @@ class Post(models.Model):
     title = models.CharField("Заголовок", max_length=256)
     text = models.TextField("Текст")
     pub_date = models.DateTimeField(
-        verbose_name='Дата и время публикации',
-        help_text='Если установить дату и время в будущем — '
-                   'можно делать отложенные публикации.'
+        verbose_name="Дата и время публикации",
+        help_text="Если установить дату и время в будущем — "
+        "можно делать отложенные публикации.",
     )
     author = models.ForeignKey(
         User,
@@ -90,10 +88,10 @@ class Post(models.Model):
         help_text="Снимите галочку, чтобы скрыть публикацию.",
     )
     image = models.ImageField(
-        'Изображение',
-        upload_to='posts/', # Директория внутри MEDIA_ROOT
+        "Изображение",
+        upload_to="posts/",  # Директория внутри MEDIA_ROOT
         blank=True,
-        null=True
+        null=True,
     )
     created_at = models.DateTimeField("Добавлено", auto_now_add=True)
 
@@ -107,26 +105,27 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+
 class Comment(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name='Публикация'
+        related_name="comments",
+        verbose_name="Публикация",
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name='Автор комментария'
+        related_name="comments",
+        verbose_name="Автор комментария",
     )
-    text = models.TextField('Текст комментария')
-    created_at = models.DateTimeField('Дата и время создания', auto_now_add=True)
+    text = models.TextField("Текст комментария")
+    created_at = models.DateTimeField("Дата и время создания", auto_now_add=True)
 
     class Meta:
-        verbose_name = 'комментарий'
-        verbose_name_plural = 'Комментарии'
-        ordering = ['created_at']
+        verbose_name = "комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ["created_at"]
 
     def __str__(self):
-        return self.text[:15] # Первые 15 символов текста комментария
+        return self.text[:15]  # Первые 15 символов текста комментария

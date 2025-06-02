@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category, Location, Comment # Импорт Comment
+from .models import Post, Category, Location, Comment  # Импорт Comment
 
 
 @admin.register(Post)
@@ -56,13 +56,14 @@ class LocationAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     empty_value_display = "-не указано-"
 
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
-        'text',
-        'post',
-        'author',
-        'created_at',
+        "text",
+        "post",
+        "author",
+        "created_at",
     )
-    list_filter = ('created_at', 'author')
-    search_fields = ('text', 'post__title', 'author__username')
+    list_filter = ("created_at", "author")
+    search_fields = ("text", "post__title", "author__username")
