@@ -1,4 +1,5 @@
 # blogicum/pages/views.py
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 
@@ -16,9 +17,6 @@ class AuthorView(TemplateView):
 
 class TechView(TemplateView):
     template_name = "pages/tech.html"
-
-
-from django.shortcuts import render
 
 
 def page_not_found(request, exception):

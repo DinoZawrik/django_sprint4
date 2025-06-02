@@ -29,12 +29,14 @@ def index(request):
         Post.objects.select_related("category", "author", "location")
         .filter(
             Q(pub_date__lte=timezone.now())
-            | Q(pub_date__isnull=True),  # Дата публикации не позже текущего или пустая
+            | Q(pub_date__isnull=True),
+            # Дата публикации не позже текущего или пустая
             is_published=True,  # Пост опубликован
             category__is_published=True,  # Категория поста опубликована
             # (исключает посты с category=None)
         )
-        .annotate(comment_count=Count("comments"))  # Добавляем количество комментариев
+        .annotate(comment_count=Count("comments"))
+        # Добавляем количество комментариев
         .order_by("-pub_date")
     )  # Сортируем по дате публикации по убыванию
 
@@ -64,11 +66,13 @@ def category_posts(request, slug):
         Post.objects.select_related("author", "location")
         .filter(
             Q(pub_date__lte=timezone.now())
-            | Q(pub_date__isnull=True),  # Дата публикации не позже текущего или пустая
+            | Q(pub_date__isnull=True),
+            # Дата публикации не позже текущего или пустая
             category=category,  # Посты принадлежат данной категории
             is_published=True,  # Пост опубликован
         )
-        .annotate(comment_count=Count("comments"))  # Добавляем количество комментариев
+        .annotate(comment_count=Count("comments"))
+        # Добавляем количество комментариев
         .order_by("-pub_date")
     )
 
@@ -115,7 +119,8 @@ def post_detail(request, pk):
             or not post.is_published  # Пост не опубликован
             or (
                 post.category is None or not post.category.is_published
-            )  # Категория поста отсутствует ИЛИ категория поста не опубликована
+            )
+            # Категория поста отсутствует ИЛИ категория поста не опубликована
         ):
             raise Http404("Публикация не найдена или не опубликована.")
 
@@ -150,7 +155,8 @@ def profile_detail(request, username):
             profile.posts.select_related("category", "location")
             .filter(
                 is_published=True,  # Пост опубликован
-                pub_date__lte=timezone.now(),  # Дата публикации не позже текущего
+                pub_date__lte=timezone.now(),
+                # Дата публикации не позже текущего
                 category__is_published=True,  # Категория поста опубликована
             )
             .annotate(
@@ -181,13 +187,15 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = "blog/create.html"
 
     def form_valid(self, form):
-        form.instance.author = self.request.user  # Автоматически устанавливаем автора
+        form.instance.author = self.request.user
+        # Автоматически устанавливаем автора
         return super().form_valid(form)
 
     def get_success_url(self):
         # Перенаправление на страницу профиля автора
         return reverse_lazy(
-            "blog:profile_detail", kwargs={"username": self.request.user.username}
+            "blog:profile_detail",
+            kwargs={"username": self.request.user.username},
         )
 
 
@@ -208,7 +216,9 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         # После редактирования перенаправляем на страницу поста
-        return reverse_lazy("blog:post_detail", kwargs={"pk": self.get_object().pk})
+        return reverse_lazy(
+            "blog:post_detail", kwargs={"pk": self.get_object().pk}
+        )
 
 
 @login_required
@@ -247,7 +257,8 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         # После удаления перенаправляем на страницу профиля автора
         return reverse_lazy(
-            "blog:profile_detail", kwargs={"username": self.request.user.username}
+            "blog:profile_detail",
+            kwargs={"username": self.request.user.username},
         )
 
 
@@ -274,7 +285,9 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         # После удаления перенаправляем на страницу поста
         # self.object уже удален, но post_id мы можем получить
-        return reverse_lazy("blog:post_detail", kwargs={"pk": self.kwargs.get("pk")})
+        return reverse_lazy(
+            "blog:post_detail", kwargs={"pk": self.kwargs.get("pk")}
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -310,7 +323,9 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         # После редактирования перенаправляем на страницу поста
         comment = self.get_object()
-        return reverse_lazy("blog:post_detail", kwargs={"pk": comment.post.pk})
+        return reverse_lazy(
+            "blog:post_detail", kwargs={"pk": comment.post.pk}
+        )
 
 
 # Представление-заглушка для редактирования профиля

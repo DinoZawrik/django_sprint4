@@ -35,7 +35,9 @@ class Category(models.Model):
 
 
 class Location(models.Model):
-    name = models.CharField("Название места", max_length=256, help_text="256 символов.")
+    name = models.CharField(
+        "Название места", max_length=256, help_text="256 символов."
+    )
     is_published = models.BooleanField(
         "Опубликовано",
         default=True,
@@ -120,7 +122,9 @@ class Comment(models.Model):
         verbose_name="Автор комментария",
     )
     text = models.TextField("Текст комментария")
-    created_at = models.DateTimeField("Дата и время создания", auto_now_add=True)
+    created_at = models.DateTimeField(
+        "Дата и время создания", auto_now_add=True
+    )
 
     class Meta:
         verbose_name = "комментарий"
