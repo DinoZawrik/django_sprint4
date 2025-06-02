@@ -18,14 +18,18 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings # Для медиа-файлов
 from django.conf.urls.static import static # Для медиа-файлов
-from blog.views import SignUp # Импортируем SignUp
-
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
+from blog.forms import CreationForm
 urlpatterns = [
+
+
+
     path("admin/", admin.site.urls),
     path("pages/", include("pages.urls", namespace="pages")),
     path("", include("blog.urls", namespace="blog")),
     path('auth/', include('django.contrib.auth.urls')), # <--- Добавьте эту строку
-    path('auth/registration/register/', SignUp.as_view(), name='register'), # <--- Добавьте эту строку
+    path('auth/registration/register/', CreateView.as_view(form_class=CreationForm, success_url=reverse_lazy('blog:index'), template_name='registration/registration_form.html'), name='register'), # Используем CreateView для регистрации
 ]
 
 # Для отдачи медиа-файлов в режиме разработки

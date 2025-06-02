@@ -89,6 +89,12 @@ class Post(models.Model):
         default=True,
         help_text="Снимите галочку, чтобы скрыть публикацию.",
     )
+    image = models.ImageField(
+        'Изображение',
+        upload_to='posts/', # Директория внутри MEDIA_ROOT
+        blank=True,
+        null=True
+    )
     created_at = models.DateTimeField("Добавлено", auto_now_add=True)
 
     class Meta:
@@ -100,3 +106,27 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Публикация'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Автор комментария'
+    )
+    text = models.TextField('Текст комментария')
+    created_at = models.DateTimeField('Дата и время создания', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'Комментарии'
+        ordering = ['created_at']
+
+    def __str__(self):
+        return self.text[:15] # Первые 15 символов текста комментария

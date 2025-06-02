@@ -1,14 +1,18 @@
 {% if user.is_authenticated %}
   {% load django_bootstrap5 %}
   <h5 class="mb-4">Оставить комментарий</h5>
-  <form method="post" action="{% url 'blog:add_comment' post.id %}">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="Отправить" %}
+  <form action="{% url 'blog:add_comment' post.pk %}" method="post">
+      {% csrf_token %}
+      {{ comment_form.as_p }} {# Предполагаем, что форма передается как comment_form #}
+      <button type="submit" class="btn btn-primary">Отправить комментарий</button>
   </form>
+{% else %}
+  <p>Чтобы оставить комментарий, <a href="{% url 'login' %}">войдите</a>.</p>
 {% endif %}
-<br>
-{% for comment in comments %}
+
+<hr>
+<h4>Комментарии ({{ post.comments.count }})</h4> {# Количество комментариев #}
+{% for comment in post.comments.all %}
   <div class="media mb-4">
     <div class="media-body">
       <h5 class="mt-0">
