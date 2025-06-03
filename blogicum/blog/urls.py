@@ -6,7 +6,7 @@ app_name = "blog"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("posts/<int:pk>/", views.post_detail, name="post_detail"),
+    path("posts/<int:post_id>/", views.post_detail, name="post_detail"),
     path(
         "category/<slug:slug>/",
         views.category_posts,
@@ -14,13 +14,13 @@ urlpatterns = [
     ),
     path("posts/create/", views.PostCreateView.as_view(), name="post_create"),
     path(
-        "posts/<int:pk>/edit/",
+        "posts/<int:post_id>/edit/",
         views.PostUpdateView.as_view(),
         name="post_edit",
     ),
-    path("posts/<int:pk>/comment/", views.add_comment, name="add_comment"),
+    path("posts/<int:post_id>/comment/", views.add_comment, name="add_comment"),
     path(
-        "posts/<int:pk>/delete/",
+        "posts/<int:post_id>/delete/",
         views.PostDeleteView.as_view(),
         name="post_delete",
     ),
@@ -28,12 +28,12 @@ urlpatterns = [
 
 urlpatterns += [
     path(
-        "posts/<int:pk>/edit_comment/<int:comment_pk>/",
+        "posts/<int:post_id>/edit_comment/<int:comment_id>/",
         views.CommentUpdateView.as_view(),
         name="edit_comment",
     ),
     path(
-        "posts/<int:pk>/delete_comment/<int:comment_pk>/",
+        "posts/<int:post_id>/delete_comment/<int:comment_id>/",
         views.CommentDeleteView.as_view(),
         name="delete_comment",
     ),

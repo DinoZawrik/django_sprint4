@@ -1,7 +1,7 @@
 {% if user.is_authenticated %}
   {% load django_bootstrap5 %}
   <h5 class="mb-4">Оставить комментарий</h5>
-  <form action="{% url 'blog:add_comment' post.pk %}" method="post">
+  <form action="{% url 'blog:add_comment' post.post_id %}" method="post">
       {% csrf_token %}
       {{ comment_form.as_p }} {# Предполагаем, что форма передается как comment_form #}
       <button type="submit" class="btn btn-primary">Отправить комментарий</button>
@@ -25,10 +25,10 @@
       {{ comment.text|linebreaksbr }}
     </div>
     {% if user == comment.author %}
-      <a class="btn btn-sm text-muted" href="{% url 'blog:edit_comment' post.id comment.id %}" role="button">
+      <a class="btn btn-sm text-muted" href="{% url 'blog:edit_comment' post.post_id comment.pk %}" role="button">
         Отредактировать комментарий
       </a>
-      <a class="btn btn-sm text-muted" href="{% url 'blog:delete_comment' post.id comment.id %}" role="button">
+      <a class="btn btn-sm text-muted" href="{% url 'blog:delete_comment' post.post_id comment.pk %}" role="button">
         Удалить комментарий
       </a>
     {% endif %}

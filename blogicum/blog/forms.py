@@ -22,7 +22,8 @@ class PostForm(forms.ModelForm):
             "category",
             "location",
             "image",
-        )  # Добавьте image и pub_date!
+            "is_published",
+        )
 
 
 class CommentForm(forms.ModelForm):
