@@ -88,7 +88,7 @@ def post_detail(request, post_id):
     comment_form = CommentForm()
     context = {
         "post": post,
-        "form": comment_form,
+        "comment_form": comment_form,
     }
     return render(request, "blog/detail.html", context)
 

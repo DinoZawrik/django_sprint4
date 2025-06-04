@@ -3,7 +3,7 @@
   <h5 class="mb-4">Оставить комментарий</h5>
   <form action="{% url 'blog:add_comment' post.pk %}" method="post">
       {% csrf_token %}
-      {{ comment_form.as_p }} {# Предполагаем, что форма передается как comment_form #}
+      {% bootstrap_form comment_form %}
       <button type="submit" class="btn btn-primary">Отправить комментарий</button>
   </form>
 {% else %}
