@@ -377,7 +377,7 @@ def _test_edit_post(
         "Убедитесь, что адрес страницы редактирования поста -"
         " `posts/<post_id>/edit/`."
     )
-    edit_url = KeyVal(re.sub(r"\d+", str(item_to_edit.id), edit_url.key), edit_url.val)
+    edit_url = KeyVal(edit_url.key, edit_url.val)
     image = PostFormTester.generate_files_dict()
     item_to_edit_adapter = PostModelAdapter(item_to_edit)
     old_prop_value = item_to_edit_adapter.displayed_field_name_or_value

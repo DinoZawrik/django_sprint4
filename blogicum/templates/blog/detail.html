@@ -28,7 +28,7 @@
         <p class="card-text">{{ post.text|linebreaksbr }}</p>
         {% if user == post.author %}
           <div class="mb-2">
-            <a class="btn btn-sm text-muted" href="{% url 'blog:post_edit' post.post_id %}" role="button">
+            <a class="btn btn-sm text-muted" href="{% url 'blog:post_edit' post.pk %}" role="button">
               Отредактировать публикацию
             </a>
             <a class="btn btn-sm text-muted" href="{% url 'blog:post_delete' post.pk %}" role="button">

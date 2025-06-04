@@ -133,6 +133,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = "blog/create.html"
+    pk_url_kwarg = "post_id"
 
     def test_func(self):
         post = self.get_object()
@@ -168,6 +169,7 @@ def add_comment(request, post_id):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = "blog/post_confirm_delete.html"
+    pk_url_kwarg = "post_id"
 
     def test_func(self):
         post = self.get_object()
@@ -187,6 +189,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
     template_name = "blog/comment_confirm_delete.html"
+    pk_url_kwarg = "comment_id"
 
     def get_object(self, _queryset=None):
         post_id = self.kwargs.get("post_id")
@@ -217,6 +220,7 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm
     template_name = "blog/comment_edit.html"
+    pk_url_kwarg = "comment_id"
 
     def get_object(self, _queryset=None):
         post_id = self.kwargs.get("post_id")
