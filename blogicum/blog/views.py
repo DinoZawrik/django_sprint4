@@ -20,9 +20,7 @@ User = get_user_model()
 
 
 def get_published_posts(queryset):
-    """
-    Фильтрует посты по статусу публикации и дате.
-    """
+    """Фильтрует посты по статусу публикации и дате."""
     return queryset.filter(
         Q(pub_date__lte=timezone.now()) | Q(pub_date__isnull=True),
         is_published=True,
@@ -31,16 +29,14 @@ def get_published_posts(queryset):
 
 
 def get_posts_with_comments(queryset):
-    """
-    Аннотирует queryset постов количеством комментариев и сортирует.
-    """
-    return queryset.annotate(comment_count=Count("comments")).order_by("-pub_date")
+    """Аннотирует queryset постов количеством комментариев и сортирует."""
+    return queryset.annotate(
+        comment_count=Count("comments")
+    ).order_by("-pub_date")
 
 
 def get_page_obj(request, post_list, posts_per_page=10):
-    """
-    Возвращает объект страницы пагинатора.
-    """
+    """Возвращает объект страницы пагинатора."""
     paginator = Paginator(post_list, posts_per_page)
     page_number = request.GET.get("page")
     return paginator.get_page(page_number)
@@ -48,7 +44,11 @@ def get_page_obj(request, post_list, posts_per_page=10):
 
 def index(request):
     post_list = get_posts_with_comments(
-        get_published_posts(Post.objects.select_related("category", "author", "location"))
+        get_published_posts(
+            Post.objects.select_related(
+                "category", "author", "location"
+            )
+        )
     )
     page_obj = get_page_obj(request, post_list)
     context = {
@@ -61,7 +61,9 @@ def category_posts(request, slug):
     category = get_object_or_404(Category, slug=slug, is_published=True)
     post_list = get_posts_with_comments(
         get_published_posts(
-            Post.objects.select_related("author", "location").filter(category=category)
+            Post.objects.select_related("author", "location").filter(
+                category=category
+            )
         )
     )
     page_obj = get_page_obj(request, post_list)
@@ -74,7 +76,9 @@ def category_posts(request, slug):
 
 def post_detail(request, post_id):
     post = get_object_or_404(
-        Post.objects.select_related("category", "author", "location"), pk=post_id
+        Post.objects.select_related(
+            "category", "author", "location"
+        ), pk=post_id
     )
 
     if request.user != post.author:
@@ -98,11 +102,15 @@ def profile_detail(request, username):
 
     if request.user == profile:
         post_list = get_posts_with_comments(
-            profile.posts.select_related("category", "location")
+            profile.posts.select_related(
+                "category", "location"
+            )
         )
     else:
         post_list = get_posts_with_comments(
-            get_published_posts(profile.posts.select_related("category", "location"))
+            get_published_posts(
+                profile.posts.select_related("category", "location")
+            )
         )
 
     page_obj = get_page_obj(request, post_list)
@@ -237,9 +245,7 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         comment = self.get_object()
-        return reverse_lazy(
-            "blog:post_detail", kwargs={"post_id": comment.post.pk}
-        )
+        return reverse_lazy("blog:post_detail", kwargs={"post_id": comment.post.pk})
 
 
 @login_required
