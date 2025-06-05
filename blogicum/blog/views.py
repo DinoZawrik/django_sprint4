@@ -245,7 +245,9 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         comment = self.get_object()
-        return reverse_lazy("blog:post_detail", kwargs={"post_id": comment.post.pk})
+        return reverse_lazy(
+            "blog:post_detail", kwargs={"post_id": comment.post.pk}
+        )
 
 
 @login_required
